@@ -1,0 +1,126 @@
+[includeIf "gitdir:~/Users/tvl/"]
+    path = "/Users/tvl/.config/yadm/config"
+
+[includeIf "gitdir:~/Documents/repos/tvl/"]
+    path = "/Users/tvl/Documents/repos/tvl/.gitconfig"
+
+[includeIf "gitdir:~/Documents/repos/i1/"]
+    path = "/Users/tvl/Documents/repos/i1/.gitconfig"
+
+[includeIf "gitdir:~/Documents/repos/ww/"]
+    path = "/Users/tvl/Documents/repos/ww/.gitconfig"
+
+[core]
+	pager = delta
+	excludesfile = "/Users/tvl/.gitignore_global"
+	repositoryformatversion = 0
+    filemode = false
+    bare = false
+    logallrefupdates = false
+	editor = "/opt/homebrew/bin/code --wait $MERGED"
+	autocrlf = input
+
+[interactive]
+	diffFilter = delta --color-only
+
+[commit]
+	template = /Users/tvl/.stCommitMsg
+
+[delta]
+    navigate = true    # use n and N to move between diff sections
+    light = false      # set to true if you're in a terminal w/ a light background color (e.g. the default macOS terminal)
+	side-by-side = true
+
+#[merge]
+#    conflictstyle = diff3
+#	tool = /opt/homebrew/bin/code --wait $MERGED
+
+[mergetool "vscode"]
+	cmd = "/opt/homebrew/bin/code --wait $MERGED"
+
+[diff]
+    colorMoved = default
+
+[init]
+    defaultBranch = main
+	templatedir = "/Users/tvl/.git_template"
+
+[pull]
+	rebase = false
+
+[push]
+	autoSetupRemote = true
+
+[help]
+	autocorrect = 1
+
+[advice]
+	addIgnoredFile = false
+
+[filter "lfs"]
+	clean = "git-lfs clean -- %f"
+	# smudge = git-lfs smudge -- %f
+	smudge = "git-lfs smudge --skip"
+	# process = git-lfs filter-process
+	process = "git-lfs filter-process --skip"
+	# required = true
+	required = false
+
+[lfs]
+	fetchexclude = *
+	skipdownloaderrors= true
+
+[web]
+	browser = firefox
+
+[alias]
+# Make sure you're adding under the [alias] block.
+# Git Commit, Add all and Push — in one step.
+cap = "!f() { git add .; git commit -m \"$@\"; git push; }; f"
+
+# BUILD | Changes that affect the build system or external dependencies (example scopes: gulp, broccoli, npm)
+build = "!f() { git cap \"🛠 BUILD: $@\"; }; f"
+
+# CI | Changes to our CI configuration files and scripts (example scopes: Travis, Circle, BrowserStack, SauceLabs)
+ci = "!f() { git cap \"⚙️ CI: $@\"; }; f"
+
+# CHORE | Other changes that don't modify src or test files
+chore = "!f() { git cap \"♻️ CHORE: $@\"; }; f"
+
+# DOCS | Documentation only changes
+doc = "!f() { git cap \"📚 DOC: $@\"; }; f"
+
+# FEATURES | A new feature
+feature = "!f() { git cap \"✨ FEATURE: $@\"; }; f"
+
+# FIX | A bug fix
+fix = "!f() { git cap \"🐛 FIX: $@\"; }; f"
+
+# NEW | Initial commit
+new = "!f() { git cap \"🛠 NEW: $@\"; }; f"
+
+# PERFORMANCE | A code change that improves performance
+rel = "!f() { git cap \"🚀 RELEASE: $@\"; }; f"
+
+# REFACTOR | A code change that neither fixes a bug nor adds a feature
+ref = "!f() { git cap \"📦 STYLE: $@\"; }; f"
+
+# REVERT | Reverts a previous commit
+revert = "!f() { git cap \"🗑 REVERT: $@\"; }; f"
+
+# STYLE | Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc)
+style = "!f() { git cap \"💎 STYLE: $@\"; }; f"
+
+# TEST | Adding missing tests or correcting existing tests
+test = "!f() { git cap \"🚨 TEST: $@\"; }; f"
+
+# DATE | Time stamped to the current data and time
+date = "!f() { git cap "$(date +'%Y-%m-%d')"; }; f"
+#date = "!f() { git cap \"📅 NEW: $@\"; "$(date +'%Y-%m-%d')"; }; f"
+
+#[difftool "sourcetree"]
+#	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+#	path =
+#[mergetool "sourcetree"]
+#	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+#	trustExitCode = true
